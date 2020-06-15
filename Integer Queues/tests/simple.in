@@ -1,0 +1,11 @@
+is_empty
+print
+add 1
+print
+add 3
+add 6
+print
+front
+remove
+print
+is_empty
