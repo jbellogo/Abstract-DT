@@ -76,18 +76,22 @@ Matrix & Matrix::operator=( const Matrix &other ){
 // move constructor
 // test with s2{ [[1,2], [2,3], [4,5]] };
 Matrix::Matrix( Matrix && other) {
+
+        for (int i = 0; i< numRows; i++) {
+                delete [] arr[i];
+        }
         std::swap(numRows, other.numRows);
         std::swap(numCols, other.numCols);
         arr = ( other.arr && numRows && numCols ) ? new int*[numRows] : nullptr;
         if (arr) {
                 for (int i = 0; i < numRows; i++) {
-                        arr[i] = new int[numCols];
-                        for (int j = 0; j < numCols; j++) {
-                                std::swap(arr[i][j], other.arr[i][j]);
-                        }
+                        std::swap(arr[i], other.arr[i]);
                 }
         }
+        delete [] other.arr;
         other.arr = nullptr;
+        other.numCols = 0;
+        other.numRows = 0;
 }
 
 // move assignment operator
@@ -104,7 +108,6 @@ Matrix & Matrix::operator=( Matrix && other){
                 for (int i = 0; i < numRows; i++) {
                         //arr[i] = new int[numCols];
                         std::swap(arr[i], other.arr[i]);
-                        //delete [] other.arr[i]; //???
                 }
         }
         delete [] other.arr;
@@ -192,7 +195,7 @@ std::ostream & operator<<( std::ostream & out, const Matrix &m ) {
         }
         for (int i = 0; i< m.rows(); i++) {
                 for (int j = 0; j< m.cols(); j++) {
-                        out << std::setw(4) << m.get(i,j);
+                        out << std::setw(4) << m.get(i,j) << " ";
                 }
                 out << endl;
         }
