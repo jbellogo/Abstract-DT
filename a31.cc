@@ -13,7 +13,7 @@ using std::endl;
 // If only one dimension is 0, also treat as 0x0 matrix; otherwise,
 // allocate space and set values in 2-D array to 0--fill later using
 // either operator>> or set().
-Matrix::Matrix( int numRows, int numCols ) : numCols{numCols}, numRows{numRows} {
+Matrix::Matrix( int numRows, int numCols ) : numRows{numRows}, numCols{numCols} {
         arr = (!numRows || !numCols) ? nullptr : new int*[numRows];
         if (arr) {
                 for (int i = 0; i < numRows; i++) {
@@ -25,21 +25,6 @@ Matrix::Matrix( int numRows, int numCols ) : numCols{numCols}, numRows{numRows} 
         }
 }
 
-// copy constructor
-Matrix::Matrix( const Matrix &n ) : numRows {n.numRows}, numCols {n.numCols},
-        arr {n.arr ? new int*[numRows] : nullptr} {
-        if (n.arr) {
-                for (int i = 0; i < numRows; i++) {
-                        arr[i] = new int[numCols];
-                        for (int j = 0; j < numCols; j++) {
-                                arr[i][j] = n.arr[i][j];
-                        }
-                }
-
-        }
-}
-
-
 // destructor
 Matrix::~Matrix(){
         for (int i = 0; i < numRows; i++) {
@@ -47,9 +32,29 @@ Matrix::~Matrix(){
         }
         delete [] arr;
 }
-////////////////////////////////////////////////////
-// SO FAR LOOKING AITE
-////////////////////////////////////////////////////
+
+
+// copy constructor
+Matrix::Matrix( const Matrix &other ) {
+        if (this == &other) return;
+        for (int i = 0; i < numRows; i++) {
+                delete [] arr[i];
+        }
+        //delete [] arr;
+        numRows = other.numRows;
+        numCols = other.numCols;
+        arr = other.arr ? new int*[numRows] : nullptr;
+
+        for (int i = 0; i < numRows; i++) {
+                arr[i] = new int[numCols];
+                for (int j = 0; j < numCols; j++) {
+                        arr[i][j] = other.arr[i][j];
+                }
+        }
+
+}
+
+
 
 // copy assignment operator
 Matrix & Matrix::operator=( const Matrix &other ){
@@ -57,17 +62,16 @@ Matrix & Matrix::operator=( const Matrix &other ){
         for (int i = 0; i < numRows; i++) {
                 delete [] arr[i];
         }
-        //delete arr;
+        delete [] arr;
         numRows = other.numRows;
         numCols = other.numCols;
         // resize arr
         arr = other.arr ? new int*[numRows] : nullptr;
-        if (arr) {
-                for (int i = 0; i < numRows; i++) {
-                        arr[i] = new int[numCols];
-                        for (int j = 0; j < numCols; j++) {
-                                arr[i][j] = other.arr[i][j];
-                        }
+
+        for (int i = 0; i < numRows; i++) {
+                arr[i] = new int[numCols];
+                for (int j = 0; j < numCols; j++) {
+                        arr[i][j] = other.arr[i][j];
                 }
         }
         return *this;
@@ -75,20 +79,7 @@ Matrix & Matrix::operator=( const Matrix &other ){
 
 // move constructor
 // test with s2{ [[1,2], [2,3], [4,5]] };
-Matrix::Matrix( Matrix && other) {
-
-        for (int i = 0; i< numRows; i++) {
-                delete [] arr[i];
-        }
-        std::swap(numRows, other.numRows);
-        std::swap(numCols, other.numCols);
-        arr = ( other.arr && numRows && numCols ) ? new int*[numRows] : nullptr;
-        if (arr) {
-                for (int i = 0; i < numRows; i++) {
-                        std::swap(arr[i], other.arr[i]);
-                }
-        }
-        delete [] other.arr;
+Matrix::Matrix( Matrix && other) : numRows{other.numRows}, numCols{other.numCols}, arr{other.arr}{
         other.arr = nullptr;
         other.numCols = 0;
         other.numRows = 0;
@@ -96,24 +87,16 @@ Matrix::Matrix( Matrix && other) {
 
 // move assignment operator
 Matrix & Matrix::operator=( Matrix && other){
-        for (int i = 0; i< numRows; i++) {
+        for (int i = 0; i < numRows; i++) {
                 delete [] arr[i];
         }
         delete [] arr;
         std::swap(numCols, other.numCols);
         std::swap(numRows, other.numRows);
-        // resize !!!
-        arr = (other.arr && numCols && numRows ) ? new int*[numRows] : nullptr;
-        if (arr) {
-                for (int i = 0; i < numRows; i++) {
-                        //arr[i] = new int[numCols];
-                        std::swap(arr[i], other.arr[i]);
-                }
-        }
-        delete [] other.arr;
-        other.arr = nullptr;
+        std::swap(arr, other.arr);
         other.numCols = 0;
         other.numRows = 0;
+        other.arr = nullptr;
         return *this;
 }
 
@@ -127,11 +110,12 @@ Matrix Matrix::operator+( const Matrix & other) const {
         }
         return result;
 }
+
 Matrix Matrix::operator*( const Matrix & rhs) const {    // multiply two matrices
         Matrix result{numRows, rhs.numCols};
         for (int i=0; i<result.numRows; i++) {
                 for (int j=0; j < result.numCols; j++) {
-                        for(int k = 0; k < result.numCols; ++k) {
+                        for(int k = 0; k < result.numRows; ++k) {
                                 result.arr[i][j] += arr[i][k] * rhs.arr[k][j];
                         }
                 }
@@ -163,24 +147,20 @@ int Matrix::get( int row, int col ) const {
 }
 
 
+
 // Reads in the number of rows, the number of columns, and then the values from
 // standard input.
 std::istream & operator>>( std::istream &in, Matrix &m) {
         int rows, cols;
         in >> rows;
         in >> cols;
-        m = Matrix {rows, cols}; // resize // should already initialize all to 0
+        Matrix temp{rows, cols}; // resize // should already initialize all to 0
+        m = temp;
         for (int i = 0; i< m.rows(); i++) {
                 for (int j = 0; j< m.cols(); j++) {
                         int value;
-                        if (!(in >> value)) {
-                                if (in.eof()) return in; // don't even bother
-                                in.clear();
-                                in.ignore();
-                                return in;
-                        } else {
-                                m.set(i, j, value);
-                        }
+                        if (!(in >> value)) return in;
+                        m.set(i, j, value);
                 }
         }
         return in;
