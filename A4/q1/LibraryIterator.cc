@@ -6,15 +6,15 @@ class Library; // forward declarations
 class DigitalMedia;
 */
 
-
 // or should it take an iterator
 LibraryIterator::LibraryIterator(std::map <std::string, DigitalMedia *>::iterator it) 
 : currit{it} {}  // Private constructor
 
-
+// seems good
 DigitalMedia * LibraryIterator::operator*() {
         return currit->second;
 }
+
 LibraryIterator LibraryIterator::operator++() {
     ++currit;
     return *this;

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include "DigitalMedia.h"
 class Library; // forward declarations
 class DigitalMedia;
 

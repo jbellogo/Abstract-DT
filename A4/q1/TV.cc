@@ -32,9 +32,8 @@ TV::~TV() {
 }
 /// hmm
 void TV::print( std::ostream & out ) {
-        //  out << this; // or not?
+        operator<<(out, *this);   // its not calling what its supposed to call. 
 }
-
 
 int TV::getEpisode() const {
         return episode;
@@ -66,6 +65,8 @@ std::ostream & operator<<( std::ostream & out, const TV & t ){
         out << t.getDuration() << ")";
         return out;
 }
+
+
 
 // Returns modified input stream. Contents of t over-written with information read in, where
 // format is "key\ntitle\nduration\nseason\nepisode\nseries\n".

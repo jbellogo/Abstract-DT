@@ -23,7 +23,7 @@ Song::~Song() {
 }
 
 void Song::print( std::ostream & out ) {
-
+        operator<<(out, *this);   // its not calling what its supposed to call. 
 }
 
 const std::string & Song::getArtist() const {

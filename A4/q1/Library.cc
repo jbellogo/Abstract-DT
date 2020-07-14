@@ -53,12 +53,12 @@ DigitalMedia * Library::find( std::string key ){
 // for the underlying object type, one per line and starting with a tab character.
 std::ostream & operator<<( std::ostream & out, Library & library ) {
         out << "library:\n";
-
         /// NEED TO USE THE ITERATOR
         for (LibraryIterator it = library.begin(); it != library.end(); ++it){
-                out << '\t' << *it << std::endl;   // already overloaded should be.
+                out << '\t';
+                (*it)->print(out);   //
+                out << std::endl;  
         }
-        
         return out;
 }
 
@@ -71,23 +71,22 @@ std::ostream & operator<<( std::ostream & out, Library & library ) {
 std::istream & operator>>( std::istream & in, Library & library ){
         std::string cha;
         while (! in.eof()){
-                try {
-                        getline(in, cha);
-                } catch (...) {
+                //try {
+                getline(in, cha);
+                if (cha != "" && cha != "t" && cha !="s"){
                         throw std::runtime_error("invalid media type");
                 }
-                
+              //  } catch (...) {
+                       // throw std::runtime_error("invalid media type"); }
                 if ( cha == "t" ){
-                        TV tv{" ", " ", 1, 1, 1, " "};
-                        in >> tv;
-                        library.add(&tv);
+                        TV *tv{new TV{" ", " ", 1, 1, 1, " "}};
+                        in >> *tv;
+                        library.add(tv);  // you are loosing the subtype. POLYMORPHISIM
                 } else if (cha == "s"){
-                        Song sg{"abc", "abc", 3, "abc", "abc", "abc"};
-                        in >> sg;
-                        library.add(&sg);
-                } else if (cha != "" || in.eof()){
-                        throw std::runtime_error("invalid media type");
-                }
+                        Song *sg{new Song{"abc", "abc", 3, "abc", "abc", "abc"}};
+                        in >> *sg;
+                        library.add(sg);
+                } 
 
         }
         return in;
