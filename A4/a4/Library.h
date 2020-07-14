@@ -15,7 +15,7 @@ class TV;
 class Library {
 friend std::ostream & operator<<( std::ostream & out,  Library & lib );
 std::map <std::string, DigitalMedia *> lst;
-
+//DigitalMedia * second(); do we need?
 
 public:
 Library();                           // Creates empty library.

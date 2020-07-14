@@ -15,12 +15,11 @@ Song::Song( const std::string & key, const std::string & title, int duration,
             const std::string & artist, const std::string & album, const std::string & genre )
         : DigitalMedia{key, title, duration},
         artist{check_lt_str("artist",artist)},
-        album{album},
+        album{check_lt_str("album", album)},
         genre{genre} {
 }
 
 Song::~Song() {
-        delete this;
 }
 
 void Song::print( std::ostream & out ) {

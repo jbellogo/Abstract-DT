@@ -18,9 +18,9 @@ void getInteger( std::istream & in, int & i, const char * fieldType ) {
         try{
                 getline( in, s );
                 i = std::stoi(s);
-                if (in.eof()) {
+                /*if (in.eof()) {
                         throw std::runtime_error{fieldType};
-                }
+                }*/
         } catch (...) {   // should be inclusive
                 throw std::runtime_error{fieldType};
         }

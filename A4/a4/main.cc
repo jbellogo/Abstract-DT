@@ -12,10 +12,10 @@ int main() {
     TV t1{ "TV01", "Somewhere far away, and long ago", 2580, 1, 1, "Amazing New Show" };
     Song s1{ "S01", "Great beat and you can dance to it", 183, "Too cool", 
         "I'd give it a 10!", "Eclectic" };
-
+    
     Playlist plists[MAX_NUM_PLAYLISTS];
     Playlist * curPList = nullptr;
-    PlaylistIterator it = plists[0].begin(); // initial dummy value so can declare variable
+    PlaylistIterator it = plists[0].begin(); // initial dummy value so can declare variable 
     Library media;
     DigitalMedia *mptr;
     char command, dmtype, arg;

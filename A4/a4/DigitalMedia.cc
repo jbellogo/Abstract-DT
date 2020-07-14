@@ -20,12 +20,12 @@ std::string check_lt_str(std::string idenfy, std::string str){
 // Sets key, title and duration information.
 // Raises: std::length_error if key.length() < 1 or title.length() < 1
 //         std::invalid_argument if duration < 1 (checks are made in order listed)
-DigitalMedia( const std::string & key, const std::string & title, int duration )
+DigitalMedia::DigitalMedia( const std::string & key, const std::string & title, int duration )
         : key{check_lt_str("key", key)}, 
         title{check_lt_str("title",title)}, 
         duration{check_lt_int("duration", duration)} {}
 
-virtual ~DigitalMedia() {
+DigitalMedia::~DigitalMedia() {
 }                          // this should do it?
 
 // Concrete subclasses use this to invoke their output operator so that Library
@@ -34,12 +34,12 @@ virtual ~DigitalMedia() {
 // virtual void print( std::ostream & out ) = 0;
 ///////////// THIS IS NOT IMPLEMENTED!
 
-const std::string & getKey() const {
+const std::string & DigitalMedia::getKey() const {
         return key;
 }
-const std::string & getTitle() const {
+const std::string & DigitalMedia::getTitle() const {
         return title;
 }
-int getDuration() const {
+int DigitalMedia::getDuration() const {
         return duration;
 }

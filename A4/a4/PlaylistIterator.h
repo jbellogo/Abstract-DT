@@ -1,16 +1,17 @@
 #ifndef _PLAYLIST_ITERATOR_
 #define _PLAYLIST_ITERATOR_
 
+
 #include <string>
+#include <vector>
 class Playlist; // forward declarations
 class DigitalMedia;
 
 class PlaylistIterator {
     friend class Playlist;
-
-    // fill in
-
-    explicit PlaylistIterator( /* fill in */ );
+    int totalSeconds, secondsPlayedSoFar;
+    std::vector < DigitalMedia * >::iterator currit;
+    explicit PlaylistIterator( std::vector < DigitalMedia *>::iterator);
 
 public:
     int getElapsedTime() const;   

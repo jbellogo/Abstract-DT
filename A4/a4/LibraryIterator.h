@@ -8,8 +8,6 @@ class DigitalMedia;
 
 class LibraryIterator {
     friend class Library;
-
-    // *** fill in
     std::map < std::string, DigitalMedia * >::iterator currit;
     explicit LibraryIterator(std::map <std::string, DigitalMedia *>::iterator);  // Private constructor
 
