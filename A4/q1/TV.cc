@@ -3,18 +3,8 @@
    class TV : public DigitalMedia {
    int episode, season;
    std::string series;
- 
-
-int check_lt_int(std::string idenfy, int len){
-        if (len >= 1) return len;
-        throw std::invalid_argument(idenfy + "< 1");
-}
-
-std::string check_lt_str(std::string idenfy, std::string str){
-        if (str.length() >= 1) return str;
-        throw std::length_error(idenfy + "has length < 1");
-}
 */
+
 // Sets key, title, duration, episode, season, and series information.
 // Raises: std::length_error if key.length() < 1 or title.length() < 1
 //         std::invalid_argument if duration < 1

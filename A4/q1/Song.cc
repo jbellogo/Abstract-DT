@@ -39,7 +39,7 @@ const std::string & Song::getGenre() const {
 // Returns modified output stream. Outputs (key, "title", "album", "artist", duration, "genre").
 // (Explicitly surrounds strings that might have whitespace within with double-quotation marks.)
 std::ostream & operator<<( std::ostream & out, const Song & s ) {
-        out << "(" << s.getKey() <<  " \""<< s.getTitle() << "\", ";
+        out << "(" << s.getKey() <<  ", \""<< s.getTitle() << "\", ";
         out << '\"'<< s.getAlbum() << "\", ";
         out << '\"'<< s.getArtist() << "\", ";
         out << s.getDuration() << ", ";

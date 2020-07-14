@@ -22,16 +22,17 @@ int PlaylistIterator::getElapsedTime() const {
 // Caller "plays" the item by printing its information to std::cout.
 DigitalMedia * PlaylistIterator::operator*() {
     // std::cout << *currit;
-    (*currit)->print(std::cout);
-    std::cout << std::to_string(secondsPlayedSoFar) + '/';
-    std::cout << std::to_string(totalSeconds)  << std::endl;
+   /// (*currit)->print(std::cout);
+    //std::cout << std::to_string(secondsPlayedSoFar) + '/';
+    //std::cout << std::to_string(totalSeconds)  << std::endl;
+    //secondsPlayedSoFar += (*currit).getDuration();
     return *currit;
 }
 
     // Adds the duration of the item just played to the total time elapsed so far before moving
     // the iterator.
 PlaylistIterator PlaylistIterator::operator++() {
-    secondsPlayedSoFar += totalSeconds;
+    secondsPlayedSoFar += (*currit)->getDuration();
     ++currit;
     return *this;
 }

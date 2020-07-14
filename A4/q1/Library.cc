@@ -58,7 +58,7 @@ DigitalMedia * Library::find( std::string key ){
 // contents, ordered by key. Each object is output using the appropriate output operator
 // for the underlying object type, one per line and starting with a tab character.
 std::ostream & operator<<( std::ostream & out, Library & library ) {
-        out << "library:\n";
+        out << "Library:\n";
         /// NEED TO USE THE ITERATOR
         for (LibraryIterator it = library.begin(); it != library.end(); ++it){
                 out << '\t';

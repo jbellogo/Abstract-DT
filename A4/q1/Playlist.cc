@@ -1,6 +1,7 @@
 
 #include "Playlist.h"
 #include <iostream>
+#include <iomanip>
 
 /*
 class Playlist {
@@ -20,8 +21,10 @@ void Playlist::reset() {
     secondsPlayedSoFar = 0;
 } // resets the elapsed time back to 0
 
+
 void Playlist::add( DigitalMedia * m ) {
     if ( m ) {
+        totalSeconds += m->getDuration();
         vec.push_back(m);
     }
 }
@@ -30,6 +33,7 @@ void Playlist::remove( DigitalMedia * m ) {
     for (PlaylistIterator it = this->begin(); it != this->end(); ++it){
         if (*it == m) {
                 // found it
+                totalSeconds -= m->getDuration();
                 vec.erase(it.currit);
         }
     }
@@ -48,10 +52,14 @@ int Playlist::getTotalSeconds() const {
 
 std::ostream & operator<<( std::ostream & out, Playlist & p ) {
         // check executable for out specifics
+        int i = 0;
+        
         for (PlaylistIterator it = p.begin(); it != p.end(); ++it){
-            out << '\t';
-            (*it);// ->print(out);
+            out << '\t' << std::setfill('0') << std::setw(3) << i << ": ";
+            (*it)->print(out);
+            out << std::endl;
+            i++;
         }
-        out << "Total: ";
+        out << "Total: " << p.getTotalSeconds() << " seconds"<< std::endl;
         return out;
 }
