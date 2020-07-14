@@ -17,6 +17,7 @@ public:
     virtual ~Playlist();
     void reset(); // resets the elapsed time back to 0
     void add( DigitalMedia * m );
+    void remove( DigitalMedia * m );
     PlaylistIterator begin();
     PlaylistIterator end();
     int getTotalSeconds() const;

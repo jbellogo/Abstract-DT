@@ -1,7 +1,7 @@
 #ifndef _PLAYLIST_ITERATOR_
 #define _PLAYLIST_ITERATOR_
 
-
+#include "DigitalMedia.h"
 #include <string>
 #include <vector>
 class Playlist; // forward declarations

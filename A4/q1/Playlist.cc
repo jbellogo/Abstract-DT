@@ -13,7 +13,6 @@ class Playlist {
     //////////////////////////////////////
 
 */
-
 Playlist::Playlist(){} 
 Playlist::~Playlist(){}
 
@@ -22,8 +21,17 @@ void Playlist::reset() {
 } // resets the elapsed time back to 0
 
 void Playlist::add( DigitalMedia * m ) {
-    if (! m) {
+    if ( m ) {
         vec.push_back(m);
+    }
+}
+/// I THINK ERASE TAKES IN An iterator
+void Playlist::remove( DigitalMedia * m ) {
+    for (PlaylistIterator it = this->begin(); it != this->end(); ++it){
+        if (*it == m) {
+                // found it
+                vec.erase(it.currit);
+        }
     }
 }
 
@@ -38,12 +46,12 @@ int Playlist::getTotalSeconds() const {
     return totalSeconds;
 }
 
-
 std::ostream & operator<<( std::ostream & out, Playlist & p ) {
         // check executable for out specifics
         for (PlaylistIterator it = p.begin(); it != p.end(); ++it){
             out << '\t';
-            out << p.vec.at(0) << std::endl;
+            (*it);// ->print(out);
         }
+        out << "Total: ";
         return out;
 }

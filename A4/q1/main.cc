@@ -12,10 +12,10 @@ int main() {
     TV t1{ "TV01", "Somewhere far away, and long ago", 2580, 1, 1, "Amazing New Show" };
     Song s1{ "S01", "Great beat and you can dance to it", 183, "Too cool", 
         "I'd give it a 10!", "Eclectic" };
-    
+
     Playlist plists[MAX_NUM_PLAYLISTS];
     Playlist * curPList = nullptr;
-    PlaylistIterator it = plists[0].begin(); // initial dummy value so can declare variable 
+    PlaylistIterator it = plists[0].begin(); // initial dummy value so can declare variable
     Library media;
     DigitalMedia *mptr;
     char command, dmtype, arg;
@@ -47,7 +47,14 @@ int main() {
                 // "r <key>" removes the item with the specified key from the media item. Silently
                 // does nothing if such an item doesn't exist.
                 std::cin >> key;
-                media.remove( key );
+                mptr = media.find( key );
+                if ( mptr ) { 
+                    for ( int i = 0; i < MAX_NUM_PLAYLISTS; i++ ) {
+                        plists[i].remove( mptr );
+                    }
+                    media.remove( key );
+                    delete mptr;
+                } // if
                 break;
 
             case '>':
@@ -104,8 +111,12 @@ int main() {
                 std::cin >> filename;
                 getline( std::cin, line ); // throw away rest of line.
                 {
-                    std::ifstream infile{ filename };
-                    infile >> media;
+                    try {
+                        std::ifstream infile{ filename };
+                        infile >> media;
+                    } catch( std::exception & e ) {
+                        std::cerr << e.what() << std::endl;
+                    }
                 }
                 break;
 
@@ -122,17 +133,19 @@ int main() {
                     std::cin >> dmtype;
                     getline( std::cin, line ); // throw away rest of line
                     if ( dmtype == 't' ) {
-
-                        // *** Add in exception handler code.
-
-                        std::cin >> t1;
-                        media.add( new TV{t1} );
+                        try {
+                            std::cin >> t1;
+                            media.add( new TV{t1} );
+                        } catch( std::exception & e ) {
+                            std::cerr << e.what() << std::endl;
+                        }
                     } else if ( dmtype == 's' ) {
- 
-                        // *** Add in exception handler code.
- 
-                        std::cin >> s1;
-                        media.add( new Song{s1} );
+                        try {
+                            std::cin >> s1;
+                            media.add( new Song{s1} );
+                        } catch( std::exception & e ) {
+                            std::cerr << e.what() << std::endl;
+                        }
                     } // if
                 } else if ( arg == 'p' ) {
                     std::cin >> index >> key;

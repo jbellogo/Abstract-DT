@@ -6,8 +6,14 @@ BETTER STYLE TO INCLUDE ALL DEPENDENCIES IN .cc FILES THAN IN HEADERS!!!! CHANGE
 Library::Library() {}
                  // Creates empty library.
 
-Library::~Library() {}  // takes care of map? wb pointers should we traverse it? we'll see
-// Destroys all items in library.
+
+// seems good
+Library::~Library() {
+        for (LibraryIterator it = this->begin(); it != this->end(); ++it){
+                delete *(it);
+        }
+}  
+// all pointers must be dynamically allocated so yikes
 
 
 LibraryIterator Library::begin() {

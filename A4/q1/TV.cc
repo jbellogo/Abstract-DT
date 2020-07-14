@@ -32,7 +32,7 @@ TV::~TV() {
 }
 /// hmm
 void TV::print( std::ostream & out ) {
-        operator<<(out, *this);   // its not calling what its supposed to call. 
+        operator<<(out, *this);   // Now calling what its supposed to 
 }
 
 int TV::getEpisode() const {
@@ -60,7 +60,7 @@ std::string check_len(int se_ep_num){
 // Season number and episode number have a default width of 2, and must start with '0' if < 10.)
 std::ostream & operator<<( std::ostream & out, const TV & t ){
         out << "(" << t.getKey() << ", \""<< t.getSeries() << "\" ";
-        out << "S"+ check_len(t.getSeason()) << "E" + check_len(t.getEpisode());
+        out << "S"+ check_len(t.getSeason()) << "E" + check_len(t.getEpisode()) << " ";
         out << '\"'<< t.getTitle() << "\", ";
         out << t.getDuration() << ")";
         return out;

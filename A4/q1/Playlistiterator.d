@@ -1,1 +1,2 @@
-Playlistiterator.o: Playlistiterator.cc PlaylistIterator.h
+Playlistiterator.o: Playlistiterator.cc PlaylistIterator.h DigitalMedia.h \
+ util.h
