@@ -19,8 +19,9 @@ void Dropfirst::setSource(std::istream *inp) { source = inp; }
 // EL MERO MERO
 std::string Dropfirst::getWord() {
  while (true) {
-    (*source) >> word; // here is the issue
-    if (upto < word.size()){
+    (*source) >> word; // here is the issue there is no more input to pull from!
+    // you GOT YOURSELF AN INFITIE LOOP
+    if (upto < word.size()) {
      break;
    }
 }

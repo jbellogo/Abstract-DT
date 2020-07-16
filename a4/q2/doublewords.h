@@ -5,8 +5,8 @@
 
 class TextProcessor;
 class Doublewords : public Decorator {
-  /* This?? */
   std::istream *source;
+  //std::iostream *source; /// TEST
   bool secondtime;
   std::string curr;
   std::vector <std::string> vec;
