@@ -18,16 +18,16 @@ void Dropfirst::setSource(std::istream *inp) { source = inp; }
 
 // EL MERO MERO
 std::string Dropfirst::getWord() {
-//  while (true) {
+ while (true) {
     (*source) >> word; // here is the issue
-
     if (upto < word.size()){
-    //  break;
+     break;
+   }
+}
+  word = word.substr(upto);
 
-  //}
-    word = word.substr(upto);
-    std::stringstream *ss = new std::stringstream{word};
-    component->setSource(ss);
-  }
+  std::stringstream *ss = new std::stringstream{word};
+  component->setSource(ss);
+
   return component->getWord();
 }
