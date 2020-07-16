@@ -1,34 +1,32 @@
 #include "dropfirst.h"
 #include "textprocess.h"
 using std::string;
-#include <sstream>      // std::stringstream
-
+#include <sstream>
+using std::cin;
 /*
-std::istream *source;
-int upto;
-std::string word;
-*/
+   std::istream *source;
+   int upto;
+   std::string word;
+ */
 Dropfirst::Dropfirst (TextProcessor *component, int n) :
-Decorator{component},
-upto{n}{}
+        Decorator{component},
+        upto{n}{
+}
 
 // VIRTUAL METHODS
-void Dropfirst::setSource(std::istream *inp) { source = inp; }
-
-
-// EL MERO MERO
-std::string Dropfirst::getWord() {
- while (true) {
-    (*source) >> word; // here is the issue there is no more input to pull from!
-    // you GOT YOURSELF AN INFITIE LOOP
-    if (upto < word.size()) {
-     break;
-   }
+void Dropfirst::setSource(std::istream *inp) {
+        source = inp;
 }
-  word = word.substr(upto);
 
-  std::stringstream *ss = new std::stringstream{word};
-  component->setSource(ss);
 
-  return component->getWord();
+std::string Dropfirst::getWord() {
+        while (true) {
+                component->setSource(source);
+                word = component->getWord();
+                if (upto < word.size()) {
+                        break;
+                }
+        }
+        word = word.substr(upto);
+        return word;
 }

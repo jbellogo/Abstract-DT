@@ -2,20 +2,20 @@
 #define _DOUBLEWORDS_H_
 #include "decorator.h"
 #include <vector>
+#include <iostream>
 
 class TextProcessor;
 class Doublewords : public Decorator {
-  std::istream *source;
-  //std::iostream *source; /// TEST
-  bool secondtime;
-  std::string curr;
-  std::vector <std::string> vec;
+bool secondtime;
+std::istream *source;
+std::string curr;
+
 public:
-  Doublewords (TextProcessor *component);
-  ~Doublewords();
-  // VIRTUAL METHODS
-  virtual void setSource(std::istream *inp);
-  virtual std::string getWord();
+Doublewords (TextProcessor *component);
+~Doublewords();
+// VIRTUAL METHODS
+virtual void setSource(std::istream *inp);
+virtual std::string getWord();
 };
 
 

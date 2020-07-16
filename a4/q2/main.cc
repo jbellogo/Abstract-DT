@@ -10,60 +10,61 @@ using namespace std;
 #include "dropfirst.h"
 
 int main () {
-  cin.exceptions(ios::failbit|ios::eofbit);
-  string s;
+        cin.exceptions(ios::failbit|ios::eofbit);
+        string s;
 
-  try {
-    while(1) {
-      getline(cin,s);
-      istringstream iss{s};
-      iss.exceptions(ios::failbit);
-      string fname;
-      iss >> fname;
-      istream *in = (fname == "stdin") ? &cin : new ifstream(fname.c_str());
-      in->exceptions(ios::failbit|ios::eofbit);
+        try {
+                while(1) {
+                        getline(cin,s);
+                        istringstream iss{s};
+                        iss.exceptions(ios::failbit);
+                        string fname;
+                        iss >> fname;
+                        istream *in = (fname == "stdin") ? &cin : new ifstream(fname.c_str());
+                        in->exceptions(ios::failbit|ios::eofbit);
 
-      TextProcessor *tp = new Echo;
-      string dec;
-      try {
-        while (true) {
-          iss >> dec;
-          if (dec == "dropfirst") {
-            int n;
-            iss >> n;
-            tp = new Dropfirst{tp, n};
-          }
-          else if (dec == "doublewords") {
-            tp = new Doublewords{tp};
-          }
-          else if (dec == "allcaps") {
-            // tp = ...
-          }
-          else if (dec == "count") {
-            char c;
-            iss >> c;
-            // tp = ...
-          }
-       }
-      }
-      catch (ios::failure) {}
+                        TextProcessor *tp = new Echo;
+                        string dec;
+                        try {
+                                while (true) {
+                                        iss >> dec;
+                                        if (dec == "dropfirst") {
+                                                int n;
+                                                iss >> n;
+                                                tp = new Dropfirst{tp, n};
 
-      tp->setSource(in);
+                                        }
+                                        else if (dec == "doublewords") {
+                                                tp = new Doublewords{tp};
+                                        }
+                                        else if (dec == "allcaps") {
+                                                // tp = ...
+                                        }
+                                        else if (dec == "count") {
+                                                char c;
+                                                iss >> c;
+                                                // tp = ...
+                                        }
+                                }
+                        }
+                        catch (ios::failure) {}
 
-      string word;
+                        tp->setSource(in);
 
-      try {
-        int lineNum = 1;
-        while (true) {
-          word = tp->getWord();
-          cout << lineNum++ << ' ' << word << endl;
+                        string word;
+
+                        try {
+                                int lineNum = 1;
+                                while (true) {
+                                        word = tp->getWord();
+                                        cout << lineNum++ << ' ' << word << endl;
+                                }
+                        }
+                        catch (ios::failure) {}
+
+                        if (in != &cin) delete in;
+                        delete tp;
+                }
         }
-      }
-      catch (ios::failure) {}
-
-      if (in != &cin) delete in;
-      delete tp;
-    }
-  }
-  catch (ios::failure) {}
+        catch (ios::failure) {}
 }
